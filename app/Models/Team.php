@@ -32,8 +32,6 @@ class Team extends Model
 
     public function manage()
     {
-        $this->members()->attach(auth()->id(), [
-            'role' => 'manager'
-        ]);
+        $this->members()->syncWithoutDetaching([auth()->id() => ['role' => 'manager']]);
     }
 }
