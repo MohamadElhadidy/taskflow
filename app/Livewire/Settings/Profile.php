@@ -7,12 +7,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Profile extends Component
 {
+    use WithFileUploads;
     public string $name = '';
 
     public string $email = '';
+
+    public $avatar;
 
     /**
      * Mount the component.
@@ -22,6 +26,8 @@ class Profile extends Component
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
     }
+
+
 
     /**
      * Update the profile information for the currently authenticated user.
@@ -41,7 +47,15 @@ class Profile extends Component
                 'max:255',
                 Rule::unique(User::class)->ignore($user->id),
             ],
+            'avatar' => 'nullable|image|max:2048'
+
         ]);
+
+        if ($this->avatar) {
+            $path =  $this->avatar->store(path: 'avatars');
+            $validated['avatar_url'] = '/storage/' . $path ;
+        }
+
 
         $user->fill($validated);
 

@@ -3,12 +3,30 @@
 
     <x-settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
+
+            @if ($avatar)
+                <!-- Preview selected image -->
+                <div class="mt-2">
+                    <img src="{{ $avatar->temporaryUrl() }}" alt="Preview"
+                        class="w-24 h-24 rounded-full object-cover border">
+                </div>
+            @else
+                <!-- Show current avatar or gravatar -->
+                <div class="mt-2">
+                    <img src="{{ auth()->user()->avatar_url }}" alt="Avatar"
+                        class="w-24 h-24 rounded-full object-cover border">
+                </div>
+            @endif
+
+            <flux:input wire:model="avatar" type="file" autocomplete="avatar" />
+
+
             <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name" />
 
             <div>
                 <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email" />
 
-                @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail &&! auth()->user()->hasVerifiedEmail())
+                @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
                     <div>
                         <flux:text class="mt-4">
                             {{ __('Your email address is unverified.') }}
