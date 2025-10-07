@@ -10,7 +10,7 @@ class Nav extends Component
     public $myTeams;
     public $otherTeams;
 
-    public $createModel;
+    public $createModel = false;
 
     #[On('team-created')]
     public function mount()
@@ -21,10 +21,11 @@ class Nav extends Component
         $this->createModel = false;
     }
 
-    public function toggleCreateModel()
+    public function showCreateModel()
     {
-        $this->createModel = !$this->createModel;
+        $this->createModel = true;
     }
+
     public function render()
     {
         return view('livewire.nav');

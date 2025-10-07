@@ -1,4 +1,16 @@
 <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
+    <div class="space-y-6">
+        <h1 class="font-semibold">{{ $team->name }}</h1>
+        <div class="flex items-center space-x-6">
+            @foreach ($team->members->take(4) as $member)
+
+                <x-avatar sm class="{{ App\Helpers\ColorHelper::avatarColor($member->initials()) }}"
+                    :label="$member->initials()" />
+
+            @endforeach
+            <livewire:invite-member />
+        </div>
+    </div>
     <div class="grid auto-rows-min gap-4 md:grid-cols-3">
         <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
             <div class="bg-gray-400 text-center ">
@@ -40,7 +52,4 @@
             </div>
         </div>
     </div>
-    <!-- <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-            <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-        </div> -->
 </div>
