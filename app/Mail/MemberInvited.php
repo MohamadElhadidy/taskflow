@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\Team;
+use App\Models\TeamInvitation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,16 +11,19 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MemberInvited extends Mailable
+class MemberInvited extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
+    public $url = "";
+    public Team $team;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public TeamInvitation $invite)
     {
-        //
+        $this->url = route('team.invite.accept', $invite->token);
+        $this->team = $invite->team;
     }
 
     /**

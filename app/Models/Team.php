@@ -27,11 +27,58 @@ class Team extends Model
 
     public function members(): BelongsToMany
     {
-        return $this->BelongsToMany(User::class, 'team_members');
+        return $this->BelongsToMany(User::class, 'team_members')->withPivot('role');
     }
 
-    public function manage()
+    public function invitations()
     {
-        $this->members()->syncWithoutDetaching([auth()->id() => ['role' => 'manager']]);
+        return $this->hasMany(TeamInvitation::class);
     }
+
+    public function addManager(User $user = null): void
+    {
+        $user = $user ?? auth()->user();
+
+        $this->members()->syncWithoutDetaching([
+            $user->id => ['role' => 'manager'],
+        ]);
+    }
+
+    public function addMember(User $user = null): void
+    {
+        $user = $user ?? auth()->user();
+
+        $this->members()->syncWithoutDetaching([
+            $user->id => ['role' => 'member'],
+        ]);
+    }
+
+    public function invite($email): TeamInvitation
+    {
+        return $this->invitations()->create([
+            'email' => $email
+        ]);
+    }
+    public function isManager(User $user = null): bool
+    {
+        $user = $user ?? auth()->user();
+
+        return $this->members()
+            ->where('user_id', $user->id)
+            ->wherePivot('role', 'manager')
+            ->exists();
+    }
+
+
+    public function isMember(User $user = null): bool
+    {
+        $user = $user ?? auth()->user();
+
+        return $this->members()
+            ->where('user_id', $user->id)
+            ->wherePivot('role', 'member')
+            ->exists();
+    }
+
+
 }

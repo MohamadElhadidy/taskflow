@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\TeamInvitationController;
+use App\Livewire\Dashboard;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -12,13 +14,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
-Route::get('/team/{team}', Team::class)->name('team');
 
-Route::middleware(['auth'])->group(function () {
+
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
     Route::get('settings/profile', Profile::class)->name('settings.profile');
@@ -35,6 +34,12 @@ Route::middleware(['auth'])->group(function () {
             ),
         )
         ->name('two-factor.show');
+
+    Route::get('dashboard', Dashboard::class)->name('dashboard');
+
+    Route::get('/team/{team}', Team::class)->name('team');
+
+    Route::get('/invitations/accept/{token}', [TeamInvitationController::class, 'accept'])->name('team.invite.accept');
 });
 
 require __DIR__ . '/auth.php';

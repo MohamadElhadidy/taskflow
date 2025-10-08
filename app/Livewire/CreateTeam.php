@@ -21,7 +21,7 @@ class CreateTeam extends Component
 
         $team = Team::create(['name' => $this->name]);
 
-        $team->manage();
+        $team->addManager();
 
         $this->reset();
 

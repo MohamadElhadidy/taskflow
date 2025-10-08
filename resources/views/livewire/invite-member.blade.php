@@ -2,8 +2,8 @@
     <button type="button" @click="open = true" class="text-gray-500 flex items-center cursor-pointer"><x-typ-plus
             class="w-4 h-4" /> <span>Invite</span></button>
 
-    <div x-show="open" x-transition.duration.500ms x-transition.opacity
-        class="fixed inset-0 m-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent p-0 backdrop:bg-transparent z-70">
+    <div x-show="open" x-transition.duration.500ms x-transition.opacity x-cloak 
+        class="fixed inset-0 m-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent p-0 backdrop:bg-transparent z-60">
         <div
             class="fixed inset-0 bg-gray-500/75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in">
         </div>

@@ -45,7 +45,7 @@ class Register extends Component
 
         $team = Team::create(['name' => $this->name . "'s Team"]);
 
-        $team->manage();
+        $team->addManager();
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
     }
