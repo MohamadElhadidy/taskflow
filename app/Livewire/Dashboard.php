@@ -8,13 +8,13 @@ use Livewire\Component;
 class Dashboard extends Component
 {
     use NotifiesUser;
-    public $errorMessage;
+    public $warningMessage;
 
     public function mount()
     {
-        $this->errorMessage = session('error');
-        if ($this->errorMessage) {
-            $this->notifyError($this->errorMessage);
+        $this->warningMessage = session('warning');
+        if ($this->warningMessage) {
+            $this->notifyWarning($this->warningMessage);
         }
     }
 

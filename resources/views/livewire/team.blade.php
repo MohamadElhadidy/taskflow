@@ -2,17 +2,9 @@
     <div class="space-y-6">
         <h1 class="font-semibold">{{ $team->name }}</h1>
         <div class="flex items-center space-x-6">
-            <div class="flex space-x-2">
-                @foreach ($team->members->take(4) as $member)
-
-                    <x-avatar sm class="{{ App\Helpers\ColorHelper::avatarColor($member->initials()) }}"
-                        :label="$member->initials()" />
-
-                @endforeach
-            </div>
+           <livewire:members :team="$team" />
             @if ($team->isManager())
                 <livewire:invite-member :team="$team" />
-
             @endif
         </div>
     </div>

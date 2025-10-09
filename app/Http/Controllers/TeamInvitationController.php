@@ -11,10 +11,13 @@ class TeamInvitationController extends Controller
     {
         $user = auth()->user();
 
-        $invite = TeamInvitation::where('token', $token)->where('email', $user->email)->firstOrFail();
+        $invite = TeamInvitation::where('token', $token)->where('email', $user->email)->first();
+        if (!$invite) {
+            return redirect('dashboard')->with('warning', 'Wrong account.');
+        }
 
         if ($invite->isExpired()) {
-            return redirect('dashboard')->with('error', 'Invitation expired.');
+            return redirect('dashboard')->with('warning', 'Invitation expired.');
         }
 
         if (!$invite->team->members()->where('user_id', $user->id)->exists()) {

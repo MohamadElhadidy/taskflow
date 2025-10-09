@@ -15,6 +15,11 @@ trait NotifiesUser
         $this->notification()->info($title, $description);
     }
 
+    public function notifyWarning($title, $description = ''): void
+    {
+        $this->notification()->warning($title, $description);
+    }
+
     public function notifyError($title, $description = ''): void
     {
         $this->notification()->error($title, $description);

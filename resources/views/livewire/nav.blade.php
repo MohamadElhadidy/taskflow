@@ -14,7 +14,7 @@
 
             @foreach ($myTeams as $team)
                 <flux:navlist.item :href="route('team', $team)" wire:key="team-{{ $team->identifier }}"
-                    :current="request()->routeIs('team') && request()->route('team') === $team->identifier" wire:navigate>
+                    :current="request()->routeIs('team') && request()->route('team')->identifier === $team->identifier" wire:navigate>
                     {{ $team->name }}
                 </flux:navlist.item>
             @endforeach
@@ -28,10 +28,9 @@
 
         <flux:navlist.group :heading="__('Other Teams')" class="grid">
 
-
             @foreach ($otherTeams as $team)
                 <flux:navlist.item :href="route('team', $team)" wire:key="team-{{ $team->identifier }}"
-                    :current="request()->routeIs('team') && request()->route('team') === $team->identifier" wire:navigate>
+                    :current="request()->routeIs('team') && request()->route('team')->identifier === $team->identifier" wire:navigate>
                     {{ $team->name }}
                 </flux:navlist.item>
             @endforeach

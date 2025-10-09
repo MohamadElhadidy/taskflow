@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Mail\MemberInvited;
 use App\Models\Team;
+use App\Models\TeamInvitation;
 use App\Traits\NotifiesUser;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Validate;
@@ -26,6 +27,25 @@ class InviteMember extends Component
     {
         $this->validate();
 
+        $exists = $this->team->members()->where('email', $this->email)->first();
+
+        if ($exists) {
+            $this->notifyWarning('Member already exists!');
+            return;
+        }
+
+
+        $active = TeamInvitation::where('email', $this->email)->active()->first();
+
+        if ($active) {
+            $this->notifyWarning('Invitaion already sent!', $this->email . ' can find the invitaion in the inbox or spam .');
+            return;
+        }
+
+
+
+
+
         $invite = $this->team->invite($this->email);
 
 
@@ -33,7 +53,17 @@ class InviteMember extends Component
 
         $this->notifySuccess('Invitaion sent!', $this->email . ' can now find the invitaion in the mail.');
 
-        $this->reset();
+        $this->reset('email');
+
+    }
+
+    public function revoke($invitationId)
+    {
+        $revoked = TeamInvitation::find($invitationId)->delete();
+
+        if ($revoked) {
+            $this->notifySuccess('Invitaion revoked!');
+        }
 
     }
 

@@ -59,6 +59,7 @@ class Team extends Model
             'email' => $email
         ]);
     }
+    
     public function isManager(User $user = null): bool
     {
         $user = $user ?? auth()->user();
@@ -80,5 +81,10 @@ class Team extends Model
             ->exists();
     }
 
+
+    public function activeInvitations()
+    {
+        return $this->invitations()->whereNull('accepted_at');
+    }
 
 }

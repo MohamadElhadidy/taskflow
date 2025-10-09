@@ -22,6 +22,12 @@ class TeamInvitation extends Model
         });
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('expires_at', '>=', now());
+    }
+
+
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
@@ -31,4 +37,7 @@ class TeamInvitation extends Model
     {
         return $this->expires_at && now()->isAfter($this->expires_at);
     }
+
+ 
+
 }
