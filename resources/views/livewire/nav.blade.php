@@ -15,7 +15,10 @@
             @foreach ($myTeams as $team)
                 <flux:navlist.item :href="route('team', $team)" wire:key="team-{{ $team->identifier }}"
                     :current="request()->routeIs('team') && request()->route('team')->identifier === $team->identifier" wire:navigate>
-                    {{ $team->name }}
+                    <div class="flex justify-between">
+                        <span>{{ $team->name }}</span>
+                        <button type="button"><x-far-edit  class="text-blue-500 hover:text-blue-700 w-4 h-4 transition-all"/></button>
+                    </div>
                 </flux:navlist.item>
             @endforeach
 

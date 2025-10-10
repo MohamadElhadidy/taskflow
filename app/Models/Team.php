@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Team extends Model
@@ -35,6 +36,11 @@ class Team extends Model
         return $this->hasMany(TeamInvitation::class);
     }
 
+    public function boards(): HasMany
+    {
+        return $this->hasMany(Board::class);
+    }
+
     public function addManager(User $user = null): void
     {
         $user = $user ?? auth()->user();
@@ -59,7 +65,7 @@ class Team extends Model
             'email' => $email
         ]);
     }
-    
+
     public function isManager(User $user = null): bool
     {
         $user = $user ?? auth()->user();
