@@ -18,8 +18,8 @@ class Team extends Component
 
     public function mount(TeamModel $team)
     {
-        $this->fetchBoards();
         $this->team = $team->load('members');
+        $this->fetchBoards();
 
         $this->successMessage = session('success');
         if ($this->successMessage) {

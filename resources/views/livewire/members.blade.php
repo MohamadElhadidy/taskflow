@@ -37,8 +37,8 @@
                         <tbody>
                             @foreach ($members as $member)
                                 <tr>
-                                    <td class="p-2 border-2 border-black">{{ $member->name}}</td>
                                     <td class="p-2 border-2 border-black">{{ $member->email}}</td>
+                                    <td class="p-2 border-2 border-black">{{ $member->expired_at}}</td>
                                     <td class="p-2 border-2 border-black">
                                         @if (!$team->isManager($member))
                                             <button type="button"

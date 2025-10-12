@@ -13,22 +13,35 @@ class CreateTeam extends Component
 
     #[Validate('required|min:3|max:255')]
     public string $name = '';
+    public ?Team $team = null;
 
+
+    public function mount()
+    {
+        if ($this->team) {
+            $this->name = $this->team->name;
+        }
+    }
 
     public function save()
     {
         $this->validate();
 
-        $team = Team::create(['name' => $this->name]);
+        if ($this->team) {
+            $this->team->update(['name' => $this->name]);
 
-        $team->addManager();
+            $this->notifySuccess('Team updated!', 'Changes have been saved.');
+        } else {
+            $team = Team::create(['name' => $this->name]);
+            $team->addManager();
+
+            $this->notifySuccess('Team created!', 'It is now active.');
+        }
+
 
         $this->reset();
 
-        $this->dispatch('team-created');
-
-        $this->notifySuccess('Team created!', 'It is now active.');
-
+        $this->dispatch('team-changed');
     }
     public function render()
     {
